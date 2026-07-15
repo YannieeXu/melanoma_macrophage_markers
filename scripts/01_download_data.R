@@ -1,0 +1,5 @@
+cat("Capstone: Download TCGA-SKCM Data\n")
+cat("Sample data included: data/sample_expression.csv\n")
+cat("For full data:\n")
+cat("  install.packages("UCSCXenaTools")\n")
+cat("  library(UCSCXenaTools)\n")
