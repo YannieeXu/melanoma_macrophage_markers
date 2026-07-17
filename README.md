@@ -14,5 +14,4 @@ CD68, CD163, CSF1R, MRC1, C1QA, C1QB, C1QC
 - output/: Figures and results
 
 ## Data Note
-The file data/sample_expression.csv is synthetic test data generated for development.
-The full analysis will use real TCGA-SKCM RNA-seq data replaced with real data.
+The sample expression data (data/sample_expression.csv) is synthetic and intended for development and testing only. The final analysis will use real TCGA-SKCM RNA-seq expression data.
