@@ -21,6 +21,12 @@ stats <- sapply(unique(expr_long$gene), function(g) {
   c(Mean = round(mean(v), 2), Median = round(median(v), 2),
     SD = round(sd(v), 2), Min = round(min(v), 2), Max = round(max(v), 2))
 })
+
+# PCA
+expr_t <- t(expr_matrix)
+pca <- prcomp(expr_t, scale. = TRUE)
+pca_df <- as.data.frame(pca$x[, 1:2])
+pca_df$sample <- rownames(pca_df)
 ```
 
 Overview
@@ -30,6 +36,7 @@ Overview
 
 ```{r summary, echo=FALSE}
 cat("Genes:", nrow(expr), "| Samples:", ncol(expr) - 1, "| Tumor: TCGA-SKCM\n")
+cat("Analysis: 7 macrophage-related genes\n")
 ```
 
 ### Expression Statistics
@@ -66,7 +73,7 @@ ggplot(expr_long, aes(x = expression, color = gene, fill = gene)) +
   theme(plot.title = element_text(face = "bold", hjust = 0.5))
 ```
 
-Correlation
+Correlation & Clustering
 =======================================================================
 
 ### Correlation Heatmap
@@ -74,7 +81,21 @@ Correlation
 ```{r heatmap, echo=FALSE, fig.width=8, fig.height=6}
 heatmap(cor_mat,
         col = colorRampPalette(c("navy", "white", "firebrick"))(100),
-        main = "Gene Expression Correlation", cexRow = 1, cexCol = 1, margins = c(8, 8))
+        main = "Gene Expression Correlation",
+        cexRow = 1.2, cexCol = 1.2, margins = c(8, 8))
+```
+
+### PCA Plot
+
+```{r pca, echo=FALSE, fig.width=9, fig.height=5}
+var_exp <- round(summary(pca)$importance[2, 1:2] * 100, 1)
+ggplot(pca_df, aes(x = PC1, y = PC2)) +
+  geom_point(size = 2, alpha = 0.5, color = "steelblue") +
+  theme_minimal(base_size = 13) +
+  labs(title = "PCA of Macrophage Gene Expression",
+       x = paste0("PC1 (", var_exp[1], "%)"),
+       y = paste0("PC2 (", var_exp[2], "%)")) +
+  theme(plot.title = element_text(face = "bold", hjust = 0.5))
 ```
 
 ### Top Correlated Pairs
@@ -94,8 +115,9 @@ Findings
 
 ```{r findings, echo=FALSE}
 cat("Findings:\n")
-cat("1. CD68 highest expression (pan-macrophage marker).\n")
-cat("2. C1QA, C1QB, C1QC strongly correlated (C1 complex).\n")
-cat("3. CD163 and MRC1 moderate correlation (M2 macrophage).\n")
-cat("4. CD68 most variable, CSF1R least variable across samples.\n")
+cat("1. CD68 shows highest expression, consistent with its role as a pan-macrophage marker.\n")
+cat("2. Complement genes (C1QA, C1QB, C1QC) are strongly correlated, forming the C1 complex.\n")
+cat("3. CD163 and MRC1 (M2 macrophage markers) show moderate positive correlation.\n")
+cat("4. PC1 captures the overall expression level across genes.\n")
+cat("5. Expression variability is highest for CD68 and lowest for CSF1R.\n")
 ```
