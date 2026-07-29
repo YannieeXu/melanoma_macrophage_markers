@@ -6,94 +6,96 @@ output:
     orientation: rows
 ---
 
-`{r setup, include=FALSE}
+```{r setup, include=FALSE}
 library(ggplot2)
 library(reshape2)
 expr <- read.csv("data/sample_expression.csv", check.names = FALSE)
 expr_long <- melt(expr, id.vars = "gene", variable.name = "sample", value.name = "expression")
-expr_long <- as.numeric(expr_long)
+expr_long$expression <- as.numeric(as.character(expr_long$expression))
 expr_matrix <- as.matrix(expr[, -1])
 rownames(expr_matrix) <- expr[, 1]
 cor_mat <- cor(t(expr_matrix))
-stats <- sapply(unique(expr_long), function(g) {
-  v <- expr_long[expr_long == g]
+
+stats <- sapply(unique(expr_long$gene), function(g) {
+  v <- expr_long$expression[expr_long$gene == g]
   c(Mean = round(mean(v), 2), Median = round(median(v), 2),
     SD = round(sd(v), 2), Min = round(min(v), 2), Max = round(max(v), 2))
 })
-`
+```
 
 Overview
 =======================================================================
 
 ### Data Summary
 
-`{r summary, echo=FALSE}
-cat("Genes:", nrow(expr), "| Samples:", ncol(expr)-1, "| Tumor: TCGA-SKCM
-")
-`
+```{r summary, echo=FALSE}
+cat("Genes:", nrow(expr), "| Samples:", ncol(expr) - 1, "| Tumor: TCGA-SKCM\n")
+```
 
 ### Expression Statistics
 
-`{r stats-table, echo=FALSE}
-knitr::kable(t(stats), digits=2, caption="Expression Summary (Normalized Counts)")
-`
+```{r stats-table, echo=FALSE}
+knitr::kable(t(stats), digits = 2, caption = "Expression Summary (Normalized Counts)")
+```
 
 Gene Expression
 =======================================================================
 
 ### Boxplot
 
-`{r boxplot, echo=FALSE, fig.width=10, fig.height=5}
-ggplot(expr_long, aes(x=gene, y=expression, fill=gene)) +
-  geom_boxplot(outlier.alpha=0.3) +
+```{r boxplot, echo=FALSE, fig.width=10, fig.height=5}
+ggplot(expr_long, aes(x = gene, y = expression, fill = gene)) +
+  geom_boxplot(outlier.alpha = 0.3) +
   scale_y_log10() +
-  theme_minimal(base_size=13) +
-  labs(title="Macrophage Gene Expression in TCGA-SKCM",
-       x="Gene", y="Expression (log10)") +
-  theme(legend.position="none", plot.title=element_text(face="bold", hjust=0.5),
-        axis.text.x=element_text(angle=45, hjust=1))
-`
+  theme_minimal(base_size = 13) +
+  labs(title = "Macrophage Gene Expression in TCGA-SKCM",
+       x = "Gene", y = "Expression (log10)") +
+  theme(legend.position = "none",
+        plot.title = element_text(face = "bold", hjust = 0.5),
+        axis.text.x = element_text(angle = 45, hjust = 1))
+```
 
 ### Expression Density
 
-`{r density, echo=FALSE, fig.width=10, fig.height=5}
-ggplot(expr_long, aes(x=expression, color=gene, fill=gene)) +
-  geom_density(alpha=0.15) +
+```{r density, echo=FALSE, fig.width=10, fig.height=5}
+ggplot(expr_long, aes(x = expression, color = gene, fill = gene)) +
+  geom_density(alpha = 0.15) +
   scale_x_log10() +
-  theme_minimal(base_size=13) +
-  labs(title="Expression Density by Gene", x="Expression (log10)", y="Density") +
-  theme(plot.title=element_text(face="bold", hjust=0.5))
-`
+  theme_minimal(base_size = 13) +
+  labs(title = "Expression Density by Gene", x = "Expression (log10)", y = "Density") +
+  theme(plot.title = element_text(face = "bold", hjust = 0.5))
+```
 
 Correlation
 =======================================================================
 
 ### Correlation Heatmap
 
-`{r heatmap, echo=FALSE, fig.width=8, fig.height=6}
-heatmap(cor_mat, col=colorRampPalette(c("navy","white","firebrick"))(100),
-        main="Gene Expression Correlation", cexRow=1, cexCol=1, margins=c(8,8))
-`
+```{r heatmap, echo=FALSE, fig.width=8, fig.height=6}
+heatmap(cor_mat,
+        col = colorRampPalette(c("navy", "white", "firebrick"))(100),
+        main = "Gene Expression Correlation", cexRow = 1, cexCol = 1, margins = c(8, 8))
+```
 
 ### Top Correlated Pairs
 
-`{r cor-table, echo=FALSE}
+```{r cor-table, echo=FALSE}
 cor_df <- melt(cor_mat)
-names(cor_df) <- c("Gene1","Gene2","Correlation")
-cor_df <- cor_df[cor_df != cor_df,]
-cor_df <- cor_df[order(-abs(cor_df)),]
-knitr::kable(head(cor_df,10), digits=3, caption="Top 10 Correlated Pairs")
-`
+names(cor_df) <- c("Gene1", "Gene2", "Correlation")
+cor_df <- cor_df[cor_df$Gene1 != cor_df$Gene2, ]
+cor_df <- cor_df[order(-abs(cor_df$Correlation)), ]
+knitr::kable(head(cor_df, 10), digits = 3, caption = "Top 10 Correlated Pairs")
+```
 
 Findings
 =======================================================================
 
 ### Summary
 
-`{r findings, echo=FALSE}
+```{r findings, echo=FALSE}
 cat("Findings:\n")
 cat("1. CD68 highest expression (pan-macrophage marker).\n")
 cat("2. C1QA, C1QB, C1QC strongly correlated (C1 complex).\n")
 cat("3. CD163 and MRC1 moderate correlation (M2 macrophage).\n")
 cat("4. CD68 most variable, CSF1R least variable across samples.\n")
-`
+```
