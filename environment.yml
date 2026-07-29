@@ -1,0 +1,12 @@
+name: capstone
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - r-base=4.2
+  - r-ggplot2
+  - r-reshape2
+  - r-flexdashboard
+  - r-rmarkdown
+  - r-knitr
+  - r-irkernel
