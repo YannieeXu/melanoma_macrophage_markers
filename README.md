@@ -8,10 +8,11 @@ Macrophages are immune cells commonly found in the tumor microenvironment. This 
 
 ## Dataset
 - Source: TCGA-SKCM (The Cancer Genome Atlas)
-- Samples: 205 tumor samples
+- Samples: 472 tumor samples
 - Genes: 7 macrophage-related genes
 - Data type: RNA-seq normalized expression counts
-- Note: The expression data in this repository is simulated based on real TCGA-SKCM statistical properties.
+- Source URL: https://www.cbioportal.org/ (TCGA-SKCM RNA-seq v2)
+- Note: Real TCGA-SKCM RNA-seq expression data, downloaded via cBioPortal API.
 
 ## Repository Structure
 melanoma_macrophage_markers/
@@ -39,6 +40,7 @@ Then open dashboard.html in a browser.
 2. C1QA, C1QB, C1QC show strong mutual correlation (C1 complex).
 3. CD163 and MRC1 show moderate correlation (M2 macrophage).
 4. CD68 most variable, CSF1R least variable across samples.
+5. PCA shows distinct expression patterns across the gene set.
 
 ## Methods
 R with ggplot2, reshape2, flexdashboard. Correlation analysis. Log-transformed visualization.
