@@ -209,26 +209,54 @@ function renderBox() {
 function renderHeat() {
   const enrichment = calcEnrichment(currentData);
   const nSamples = currentData.samples.length;
-  const step = Math.max(1, Math.floor(nSamples / 100));
+  const step = Math.max(1, Math.floor(nSamples / 60));
   const sampleIdx = [];
   for (let s = 0; s < nSamples; s += step) sampleIdx.push(s);
-  const z = [];
-  const labels = [];
-  for (const i of sampleIdx) {
-    z.push([enrichment.m0[i], enrichment.m1[i], enrichment.m2[i]]);
-    labels.push(currentData.samples[i]);
+
+  // Build raw rows and sort by dominant subtype
+  const rows = sampleIdx.map(i => ({
+    label: currentData.samples[i],
+    values: [enrichment.m0[i], enrichment.m1[i], enrichment.m2[i]],
+    subtype: enrichment.subtype[i]
+  }));
+  const order = { M0: 0, M1: 1, M2: 2, NA: 3 };
+  rows.sort((a, b) => (order[a.subtype] || 3) - (order[b.subtype] || 3));
+
+  // Min-max normalize each column separately so M0/M1/M2 are comparable
+  const nCols = 3;
+  const z = rows.map(r => r.values.slice());
+  const mins = [Infinity, Infinity, Infinity];
+  const maxs = [-Infinity, -Infinity, -Infinity];
+  for (const row of z) {
+    for (let col = 0; col < nCols; col++) {
+      if (!isNaN(row[col])) {
+        if (row[col] < mins[col]) mins[col] = row[col];
+        if (row[col] > maxs[col]) maxs[col] = row[col];
+      }
+    }
   }
+  for (const row of z) {
+    for (let col = 0; col < nCols; col++) {
+      row[col] = (row[col] - mins[col]) / (maxs[col] - mins[col] || 1);
+    }
+  }
+
+  const labels = rows.map(r => r.label);
+  const customdata = rows.map(r => [r.subtype]);
+
   const layout = {
-    title: { text: "M0 / M1 / M2 Enrichment by Sample" },
+    title: { text: "M0 / M1 / M2 Enrichment by Sample (normalized)" },
     xaxis: { title: "Subtype" },
-    yaxis: { title: "Sample" },
+    yaxis: { title: "Sample (sorted by phenotype)" },
     height: 560,
-    margin: { t: 50, l: 100, r: 30, b: 60 }
+    margin: { t: 50, l: 130, r: 30, b: 60 }
   };
   const data = [{
     z,
     x: ["M0", "M1", "M2"],
     y: labels,
+    customdata,
+    hovertemplate: "Sample: %{y}<br>%{x}: %{z:.2f}<br>Subtype: %{customdata[0]}<extra></extra>",
     type: "heatmap",
     colorscale: [["0", "rgb(30,60,120)"], ["0.5", "rgb(255,255,255)"], ["1", "rgb(200,30,30)"]]
   }];
