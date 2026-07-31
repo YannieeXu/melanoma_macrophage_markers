@@ -209,11 +209,10 @@ function renderBox() {
 function renderHeat() {
   const enrichment = calcEnrichment(currentData);
   const nSamples = currentData.samples.length;
-  const step = Math.max(1, Math.floor(nSamples / 60));
+  const step = Math.max(1, Math.floor(nSamples / 25));
   const sampleIdx = [];
   for (let s = 0; s < nSamples; s += step) sampleIdx.push(s);
 
-  // Build raw rows and sort by dominant subtype
   const rows = sampleIdx.map(i => ({
     label: currentData.samples[i],
     values: [enrichment.m0[i], enrichment.m1[i], enrichment.m2[i]],
@@ -222,7 +221,6 @@ function renderHeat() {
   const order = { M0: 0, M1: 1, M2: 2, NA: 3 };
   rows.sort((a, b) => (order[a.subtype] || 3) - (order[b.subtype] || 3));
 
-  // Min-max normalize each column separately so M0/M1/M2 are comparable
   const nCols = 3;
   const z = rows.map(r => r.values.slice());
   const mins = [Infinity, Infinity, Infinity];
@@ -247,9 +245,14 @@ function renderHeat() {
   const layout = {
     title: { text: "M0 / M1 / M2 Enrichment by Sample (normalized)" },
     xaxis: { title: "Subtype" },
-    yaxis: { title: "Sample (sorted by phenotype)" },
-    height: 560,
-    margin: { t: 50, l: 130, r: 30, b: 60 }
+    yaxis: {
+      title: "Sample",
+      tickfont: { size: 9 },
+      automargin: true
+    },
+    height: 650,
+    margin: { t: 50, l: 180, r: 60, b: 60 },
+    colorbar: { thickness: 15, title: "Score" }
   };
   const data = [{
     z,
