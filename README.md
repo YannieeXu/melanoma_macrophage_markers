@@ -1,49 +1,57 @@
-# Macrophage-Associated Immune Markers in Melanoma
+# Macrophage Subtyping in Melanoma
 
 ## Research Question
-Are there genes related to macrophages and immune responses that show different expression patterns in melanoma tumor samples?
+Can macrophage phenotypes (M0, M1, M2) be identified in melanoma tumor samples using expression of subtype-specific gene markers?
 
-## Background
-Macrophages are immune cells commonly found in the tumor microenvironment. This project examines the expression of seven known macrophage-related genes (CD68, CD163, CSF1R, MRC1, C1QA, C1QB, C1QC) in TCGA Skin Cutaneous Melanoma (SKCM) samples.
+## Dynamic Dashboard
+The main deliverable is an interactive web dashboard:
+
+**Open: https://YannieeXu.github.io/melanoma_macrophage_markers/**
+
+### Features
+- **Dynamic data upload**: upload your own expression CSV and all plots update automatically
+- **M0/M1/M2 subtyping**: each sample is classified by enrichment score
+  - M0: F4/80 (ADGRE1)
+  - M1: CD80, CD86, HLA-DRA, HLA-DRB1, NOS2
+  - M2: CD206 (MRC1), ARG1
+- **PCA plot**: samples colored by macrophage subtype
+- **Enrichment boxplot**: M0/M1/M2 score distributions
+- **Heatmap**: M0/M1/M2 enrichment by sample
+- **Summary table**: subtype counts and percentages
 
 ## Dataset
 - Source: TCGA-SKCM (The Cancer Genome Atlas)
-- Samples: 472 tumor samples
-- Genes: 7 macrophage-related genes
-- Data type: RNA-seq normalized expression counts
 - Source URL: https://www.cbioportal.org/ (TCGA-SKCM RNA-seq v2)
-- Note: Real TCGA-SKCM RNA-seq expression data, downloaded via cBioPortal API.
+- Samples: 472 tumor samples
+- Genes: 14 macrophage-related genes
+- Data type: RNA-seq normalized expression counts
 
 ## Repository Structure
+`
 melanoma_macrophage_markers/
-+-- data/sample_expression.csv      # Gene expression data
-+-- scripts/
-|   +-- 01_download_data.R          # Data download guide
-|   +-- 02_explore_data.R           # Basic data exploration
-+-- dashboard.Rmd                   # Flexdashboard with full analysis
-+-- dashboard.html                  # Rendered dashboard
-+-- boxplot.png                     # Expression boxplot
-+-- density.png                     # Expression density plot
-+-- heatmap.png                     # Correlation heatmap
++-- index.html                      # Dynamic dashboard (main deliverable)
++-- data/sample_expression.csv      # Expression data (14 genes x 472 samples)
++-- dashboard.Rmd                   # Previous static dashboard (reference)
++-- dashboard.html                  # Previous static dashboard (reference)
 +-- environment.yml                 # Conda environment
 +-- README.md
 +-- .gitignore
+`
 
-## How to Run
-conda env create -f environment.yml
-conda activate capstone
-In R: rmarkdown::render("dashboard.Rmd")
-Then open dashboard.html in a browser.
+## How to Run Locally
+Open index.html in any web browser. No server needed.
 
 ## Results
-1. CD68 shows the highest expression (pan-macrophage marker).
-2. C1QA, C1QB, C1QC show strong mutual correlation (C1 complex).
-3. CD163 and MRC1 show moderate correlation (M2 macrophage).
-4. CD68 most variable, CSF1R least variable across samples.
-5. PCA shows distinct expression patterns across the gene set.
+1. M0, M1, and M2 macrophage phenotypes were identified across 472 TCGA-SKCM samples.
+2. Each sample was assigned to the subtype with the highest enrichment score.
+3. PCA shows expression structure across the 14-gene panel.
+4. The dynamic dashboard allows re-analysis with user-provided data.
 
 ## Methods
-R with ggplot2, reshape2, flexdashboard. Correlation analysis. Log-transformed visualization.
+- JavaScript-based analysis runs entirely in the browser (no server needed)
+- PCA: SVD via numeric.js
+- Enrichment score: mean expression of each gene set per sample
+- Visualization: Plotly.js
 
 ## Acknowledgments
 Based on TCGA-SKCM data from The Cancer Genome Atlas (cancer.gov/tcga)
