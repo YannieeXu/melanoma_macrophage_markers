@@ -11,9 +11,9 @@ The main deliverable is an interactive web dashboard:
 ### Features
 - **Dynamic data upload**: upload your own expression CSV and all plots update automatically
 - **M0/M1/M2 subtyping**: each sample is classified by enrichment score
-  - M0: F4/80 (ADGRE1)
-  - M1: CD80, CD86, HLA-DRA, HLA-DRB1, NOS2
-  - M2: CD206 (MRC1), ARG1
+  - **M0 (11 genes)**: F4/80 (ADGRE1), CD68, CSF1R, CD14, ITGAM, CD33, FCGR1A, MSR1, C1QA, C1QB, C1QC
+  - **M1 (15 genes)**: CD80, CD86, HLA-DRA, HLA-DRB1, NOS2, TNF, IL1B, IL6, CXCL9, CXCL10, CXCL11, CCR7, STAT1, IL12A, IL12B
+  - **M2 (12 genes)**: CD206 (MRC1), ARG1, CD163, IL10, TGFB1, CCL18, CCL22, FOLR2, TGM2, STAT6, IRF4, PPARG
 - **PCA plot**: samples colored by macrophage subtype
 - **Enrichment boxplot**: M0/M1/M2 score distributions
 - **Heatmap**: M0/M1/M2 enrichment by sample
@@ -23,16 +23,20 @@ The main deliverable is an interactive web dashboard:
 - Source: TCGA-SKCM (The Cancer Genome Atlas)
 - Source URL: https://www.cbioportal.org/ (TCGA-SKCM RNA-seq v2)
 - Samples: 472 tumor samples
-- Genes: 14 macrophage-related genes
+- Genes: 38 macrophage-related genes
 - Data type: RNA-seq normalized expression counts
+
+## References
+- Murray & Wynn (2011) Nature Reviews Immunology
+- Biswas & Mantovani (2010) Nature Immunology
+- Sica & Mantovani (2012) Journal of Clinical Investigation
+- Orecchioni et al. (2019) Frontiers in Immunology
 
 ## Repository Structure
 `
 melanoma_macrophage_markers/
 +-- index.html                      # Dynamic dashboard (main deliverable)
-+-- data/sample_expression.csv      # Expression data (14 genes x 472 samples)
-+-- dashboard.Rmd                   # Previous static dashboard (reference)
-+-- dashboard.html                  # Previous static dashboard (reference)
++-- data/sample_expression.csv      # Expression data (38 genes x 472 samples)
 +-- environment.yml                 # Conda environment
 +-- README.md
 +-- .gitignore
@@ -40,12 +44,6 @@ melanoma_macrophage_markers/
 
 ## How to Run Locally
 Open index.html in any web browser. No server needed.
-
-## Results
-1. M0, M1, and M2 macrophage phenotypes were identified across 472 TCGA-SKCM samples.
-2. Each sample was assigned to the subtype with the highest enrichment score.
-3. PCA shows expression structure across the 14-gene panel.
-4. The dynamic dashboard allows re-analysis with user-provided data.
 
 ## Methods
 - JavaScript-based analysis runs entirely in the browser (no server needed)
