@@ -1,4 +1,4 @@
-REFLECTION -- Capstone Project
+Capstone Final Reflection
 
 1. Acceleration
 
@@ -25,6 +25,8 @@ Something else that got on my nerves was the AI would sometimes say everything w
 In week 1, I barely knew how to use Git. I could clone a repository and maybe add a file, but that was about it. Commands like branch, merge, pull request, and tag were terms I had heard in class but never actually used. Setting up a conda environment meant following a tutorial step by step and not really understanding what each step did. I definitely could not have set up a project from scratch without detailed instructions.
 
 By the end of this course, I can set up a complete analysis project from nothing. I can create a GitHub repo with the right folder structure and a proper .gitignore. I can write an environment.yml file with the correct package names. I can build a Jupyter notebook or an interactive web dashboard, download real data from an API, process it, make visualizations, and push everything to GitHub with meaningful commit messages.
+
+Assignments 2 through 4 were the middle stage for me. Moving from the linear regression notebooks to command-line scripts, checking regression diagnostics, and working through a full Python stats notebook each felt a little less intimidating. I still depended on the AI when an error did not match the tutorial, but I was beginning to understand how a project was organized instead of just copying code.
 
 During the Capstone, I downloaded real TCGA-SKCM expression data from cBioPortal, processed it into a usable format, expanded the M0/M1/M2 macrophage gene panel to 38 well-established markers based on published literature, and built an interactive dashboard with PCA, enrichment boxplots, heatmaps, and a subtype summary. The dashboard allows users to upload their own expression data and regenerates all results automatically. There is no way I could have done any of that in week 1.
 
