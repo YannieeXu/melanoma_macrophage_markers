@@ -26,6 +26,14 @@ The main deliverable is an interactive web dashboard:
 - Genes: 38 macrophage-related genes
 - Data type: RNA-seq normalized expression counts
 
+## Example Datasets for Upload Testing
+Two public GEO melanoma datasets are included so you can test the upload feature:
+
+- **data/GSE91061_38genes.csv**: FPKM expression, 109 samples, 38 genes (anti-PD-1 treatment cohort)
+- **data/GSE98394_38genes.csv**: raw counts, 78 samples, 35 genes (note: MSR1, IL10, CCL18 are not measured in this dataset)
+
+To test: download either file, click Choose File in the dashboard, and all plots will regenerate automatically.
+
 ## References
 - Murray & Wynn (2011) Nature Reviews Immunology
 - Biswas & Mantovani (2010) Nature Immunology
@@ -36,7 +44,9 @@ The main deliverable is an interactive web dashboard:
 ```
 melanoma_macrophage_markers/
 +-- index.html                      # Dynamic dashboard (main deliverable)
-+-- data/sample_expression.csv      # Expression data (38 genes x 472 samples)
++-- data/sample_expression.csv      # Built-in TCGA-SKCM data (38 genes x 472 samples)
++-- data/GSE91061_38genes.csv       # Example GEO dataset (FPKM, 109 samples)
++-- data/GSE98394_38genes.csv       # Example GEO dataset (counts, 78 samples)
 +-- environment.yml                 # Conda environment
 +-- README.md
 +-- .gitignore
