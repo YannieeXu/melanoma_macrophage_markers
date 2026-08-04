@@ -1,12 +1,5 @@
+# The final Capstone deliverable is a self-contained HTML/JS dashboard.
+# No Python or R packages are required to run or reproduce index.html.
 name: capstone
-channels:
-  - conda-forge
-  - defaults
-dependencies:
-  - r-base=4.2
-  - r-ggplot2
-  - r-reshape2
-  - r-flexdashboard
-  - r-rmarkdown
-  - r-knitr
-  - r-irkernel
+channels: []
+dependencies: []

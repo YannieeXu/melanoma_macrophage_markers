@@ -50,7 +50,7 @@ melanoma_macrophage_markers/
 +-- data/sample_expression.csv      # Built-in TCGA-SKCM data (38 genes x 472 samples)
 +-- data/GSE91061_38genes.csv       # Example GEO dataset (FPKM, 109 samples)
 +-- data/GSE98394_38genes.csv       # Example GEO dataset (counts, 78 samples)
-+-- environment.yml                 # Conda environment
++-- environment.yml                 # No runtime dependencies (self-contained dashboard)
 +-- README.md
 +-- REFLECTION.md                   # Capstone reflection
 +-- .gitignore
@@ -58,6 +58,9 @@ melanoma_macrophage_markers/
 
 ## How to Run Locally
 Open index.html in any web browser. No server needed.
+
+## Reproducibility
+The dashboard is self-contained: the expression data is embedded in `index.html` and all analysis runs in the browser. A clean checkout can be reproduced by opening `index.html` directly or by visiting the GitHub Pages link above. `environment.yml` is included as the project manifest and intentionally declares no Python or R runtime dependencies.
 
 ## Methods
 - JavaScript-based analysis runs entirely in the browser (no server needed)
