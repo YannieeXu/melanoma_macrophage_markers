@@ -30,9 +30,12 @@ The main deliverable is an interactive web dashboard:
 Two public GEO melanoma datasets are included so you can test the upload feature:
 
 - **data/GSE91061_38genes.csv**: FPKM expression, 109 samples, 38 genes (anti-PD-1 treatment cohort)
-- **data/GSE98394_38genes.csv**: raw counts, 78 samples, 35 genes (note: MSR1, IL10, CCL18 are not measured in this dataset)
+- **data/GSE98394_38genes.csv**: raw counts, 78 samples, 38 gene rows (note: MSR1, IL10, and CCL18 are not measured, so they are recorded as NA)
 
 To test: download either file, click Choose File in the dashboard, and all plots will regenerate automatically.
+
+## CSV Format
+Uploaded files must be comma-separated with the first column as gene symbols and the remaining columns as sample IDs. Numeric expression values should fill the table; missing values can be recorded as `NA`. The dashboard requires at least 3 genes and 5 samples to run the analysis.
 
 ## References
 - Murray & Wynn (2011) Nature Reviews Immunology
@@ -49,6 +52,7 @@ melanoma_macrophage_markers/
 +-- data/GSE98394_38genes.csv       # Example GEO dataset (counts, 78 samples)
 +-- environment.yml                 # Conda environment
 +-- README.md
++-- REFLECTION.md                   # Capstone reflection
 +-- .gitignore
 ```
 
