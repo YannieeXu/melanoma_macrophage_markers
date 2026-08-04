@@ -33,14 +33,14 @@ The main deliverable is an interactive web dashboard:
 - Orecchioni et al. (2019) Frontiers in Immunology
 
 ## Repository Structure
-`
+```
 melanoma_macrophage_markers/
 +-- index.html                      # Dynamic dashboard (main deliverable)
 +-- data/sample_expression.csv      # Expression data (38 genes x 472 samples)
 +-- environment.yml                 # Conda environment
 +-- README.md
 +-- .gitignore
-`
+```
 
 ## How to Run Locally
 Open index.html in any web browser. No server needed.
